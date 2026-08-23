@@ -28,14 +28,20 @@ sudoedit /opt/stacks/route-difficulty/builder.env
 
 ## 4. Caddy 연결
 
-기존 Caddyfile에 `route-difficulty.caddy`의 사이트 블록을 추가한 뒤 설정을 검증하고 reload 합니다. 이 사이트에는 Basic 인증을 적용하지 않습니다.
+기존 Caddyfile에 `route-difficulty.caddy`의 사이트 블록을 추가합니다. 이 사이트에는 Basic 인증을 적용하지 않습니다.
+
+현재 Oracle의 Caddyfile은 파일 하나가 읽기 전용 bind mount로 연결되어 있습니다. 호스트 편집기가 파일을 원자적으로 교체하면 실행 중 컨테이너는 이전 inode를 계속 볼 수 있으므로, 새 파일을 별도 컨테이너로 먼저 검증한 뒤 Caddy 서비스 하나만 재생성합니다.
 
 ```bash
-sudo docker exec caddy caddy validate --config /etc/caddy/Caddyfile
-sudo docker exec caddy caddy reload --config /etc/caddy/Caddyfile
+sudo docker run --rm \
+  -e DOMAIN=jamaifamily.duckdns.org \
+  -v /opt/familymap/deploy/Caddyfile:/etc/caddy/Caddyfile:ro \
+  caddy:2 caddy validate --config /etc/caddy/Caddyfile
+sudo docker compose -f /opt/familymap/docker-compose.yml \
+  up -d --no-deps --force-recreate caddy
 ```
 
-Caddy 컨테이너 이름과 설정 경로가 다르면 실제 운영 구성을 먼저 확인합니다.
+이 명령은 Caddy만 수 초 재생성하고 EventBot·Growing·DB 컨테이너는 변경하지 않습니다. 다른 서버에서 Caddy 설정 디렉터리 전체를 마운트했다면 일반 `caddy reload`를 사용할 수 있으므로 실제 마운트를 먼저 확인합니다.
 
 ## 5. 최초 기동과 자동 갱신
 
