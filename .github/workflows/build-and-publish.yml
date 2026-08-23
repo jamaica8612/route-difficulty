@@ -27,6 +27,7 @@ jobs:
         with:
           python-version: "3.11"
           cache: pip
+          cache-dependency-path: scripts/requirements-data.txt
       - run: npm ci
       - run: npm run lint
       - run: npm test
