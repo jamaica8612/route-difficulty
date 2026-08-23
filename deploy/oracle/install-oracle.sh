@@ -15,6 +15,7 @@ fi
 
 install -d -o root -g root -m 0755 "$stack_dir" "$stack_dir/input" "$stack_dir/work" "$stack_dir/published/data"
 install -o root -g root -m 0644 deploy/oracle/compose.yaml "$stack_dir/compose.yaml"
+install -o root -g root -m 0644 deploy/oracle/route-difficulty.caddy "$stack_dir/route-difficulty.caddy"
 install -o root -g root -m 0755 deploy/oracle/run-data-update.sh "$stack_dir/run-data-update.sh"
 install -o root -g root -m 0755 deploy/oracle/update-web.sh "$stack_dir/update-web.sh"
 
