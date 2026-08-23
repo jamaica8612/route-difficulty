@@ -1,0 +1,17 @@
+[Unit]
+Description=Pull and verify the latest route-difficulty web image
+After=docker.service network-online.target
+Wants=network-online.target
+Requires=docker.service
+
+[Service]
+Type=oneshot
+User=root
+WorkingDirectory=/opt/stacks/route-difficulty
+ExecStart=/opt/stacks/route-difficulty/update-web.sh
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=full
+ReadWritePaths=/opt/stacks/route-difficulty
+TimeoutStartSec=10m

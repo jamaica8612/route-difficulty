@@ -1,0 +1,18 @@
+[Unit]
+Description=Build and publish route-difficulty public dataset
+After=docker.service network-online.target
+Wants=network-online.target
+Requires=docker.service
+
+[Service]
+Type=oneshot
+User=root
+WorkingDirectory=/opt/stacks/route-difficulty
+ExecStart=/opt/stacks/route-difficulty/run-data-update.sh
+SuccessExitStatus=75
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=full
+ReadWritePaths=/opt/stacks/route-difficulty
+TimeoutStartSec=12h

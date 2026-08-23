@@ -1,0 +1,55 @@
+services:
+  web:
+    image: ghcr.io/jamaica8612/route-difficulty-web:${ROUTE_DIFFICULTY_IMAGE_TAG:-main}
+    container_name: route-difficulty-web
+    restart: unless-stopped
+    expose:
+      - "8080"
+    volumes:
+      - ./published/data:/srv/route-difficulty-data:ro
+    read_only: true
+    tmpfs:
+      - /var/cache/nginx
+      - /var/run
+      - /tmp
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - SETGID
+      - SETUID
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - frontend
+
+  data-builder:
+    image: ghcr.io/jamaica8612/route-difficulty-builder:${ROUTE_DIFFICULTY_BUILDER_IMAGE_TAG:-main}
+    profiles:
+      - builder
+    env_file:
+      - ${ROUTE_DIFFICULTY_BUILDER_ENV_FILE:-./builder.env.example}
+    volumes:
+      - ./input:/data/input:ro
+      - ./work:/data/work
+      - ./published/data:/data/output
+    cpus: "1.0"
+    mem_limit: 2g
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - data
+    command:
+      - monthly
+
+networks:
+  frontend:
+    external: true
+    name: eventbot_proxy
+  data:
+    driver: bridge

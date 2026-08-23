@@ -1,0 +1,11 @@
+[Unit]
+Description=Resume route-difficulty monthly dataset collection each day
+
+[Timer]
+OnCalendar=*-*-* 03:30:00 Asia/Seoul
+RandomizedDelaySec=30m
+Persistent=true
+Unit=route-difficulty-data.service
+
+[Install]
+WantedBy=timers.target

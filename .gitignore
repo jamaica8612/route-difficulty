@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.env
+*.local
+data/input/
+data/work/
+data/published/
+__pycache__/
+*.pyc

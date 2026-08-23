@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "datasetVersion": "2026-08-bootstrap",
+  "generatedAt": "2026-08-23T00:00:00+09:00",
+  "zoneCount": 0,
+  "sourceDates": {
+    "postcodeBoundaries": null,
+    "buildingRegister": null,
+    "kApt": null
+  },
+  "status": "awaiting-official-source-files"
+}

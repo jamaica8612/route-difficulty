@@ -1,0 +1,12 @@
+{
+  "name": "구역판독 · 택배 구역 공식정보",
+  "short_name": "구역판독",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f2f3ee",
+  "theme_color": "#17231c",
+  "icons": [
+    { "src": "./icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "./icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
